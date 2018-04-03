@@ -28,7 +28,7 @@
 #include <ESP8266WebServer.h>
 
 // Pages
-#include "file1.h"
+#include "HTML.h"
 
 // Define a dns server for Captive Portal
 const byte DNS_PORT = 53;
@@ -53,6 +53,18 @@ int bits[NLEDS] = { D0, D1, D2, D3, D4, D5 };
 
 // Memorizes bits state
 int current_answer[NLEDS] = { 0 };
+
+// Current state of the game
+bool is_game_running = false;
+// Current system password
+String password = "000000";
+// Current system token
+int token = 0;
+
+// This is an emergency endpoint in case some of students decides to leave
+// in the middle of a game, you should rename it in production as a security
+// measure
+const String FORCERESTARENDPOINT = "force_restart";
 
 /**
  * Turns all leds on
@@ -86,32 +98,33 @@ turn_all_off()
 void
 handleRoot()
 {
-
-        webServer.send(200, "text/html", file1);
+        webServer.send(200, "text/html",
+                        "<meta http-equiv=\"refresh\" content=\"0; url=http://42.42.42.42/auth\" />");
 }
 
 /**
- * 404 - Page Not Found endpoint
+ * Game endpoint
  */
 void
-handleNotFound()
+handleGame()
 {
-        String message = "File Not Found\n\n";
-        message += "URI: ";
-        message += webServer.uri();
-        message += "\nMethod: ";
-        message +=(webServer.method() == HTTP_GET) ? "GET" : "POST";
-        message += "\nArguments: ";
-        message += webServer.args();
-        message += "\n";
+        webServer.setContentLength(gameHTML1().length() +
+                                    gameHTML2().length() +
+                                    gameHTML3().length() +
+                                    gameHTML4().length());
+        webServer.send(200, "text/html", gameHTML1());
+        webServer.sendContent(gameHTML2());
+        webServer.sendContent(gameHTML3());
+        webServer.sendContent(gameHTML4());
+}
 
-        for (uint8_t i = 0; i < webServer.args(); ++i) {
-                message +=
-                    " " + webServer.argName(i) + ": " + webServer.arg(i) +
-                    "\n";
-        }
-
-        webServer.send(404, "text/plain", message);
+/**
+ * CSS endpoint
+ */
+void
+return_css()
+{
+        webServer.send(200, "text/css", cssHTML());
 }
 
 /**
@@ -145,6 +158,76 @@ handleInputError()
 }
 
 /**
+ * Auth endpoint
+ */
+void
+handleAuth()
+{
+        if (webServer.method() == HTTP_GET)
+        {
+                webServer.setContentLength(authHTML1().length() +
+                                            authHTML2().length() +
+                                            authHTML3().length() +
+                                            authHTML4().length());
+                webServer.send(200, "text/html", authHTML1());
+                webServer.sendContent(authHTML2());
+                webServer.sendContent(authHTML3());
+                webServer.sendContent(authHTML4());
+        }
+        else if (webServer.method() == HTTP_POST)
+        {
+                if (!is_game_running)
+                {
+                        if (password == webServer.arg("password"))
+                        {
+                                is_game_running = true;
+                                token = webServer.arg("token").toInt();
+                                webServer.send(200, "text/html", "ok");
+                                turn_all_off();
+                        }
+                        else
+                        {
+                                webServer.send(200, "text/html",
+                                                "Esta palavra-passe está errada.");
+                        }
+                }
+                else
+                {
+                        webServer.send(200, "text/html",
+                                        "Já está alguém a jogar, espera pela tua vez! :)");
+                }
+        }
+        else
+        {
+                // Invalid HTTP request method
+                handleInputError();
+        }
+}
+
+/**
+ * 404 - Page Not Found endpoint
+ */
+void
+handleNotFound()
+{
+        String message = "File Not Found\n\n";
+        message += "URI: ";
+        message += webServer.uri();
+        message += "\nMethod: ";
+        message +=(webServer.method() == HTTP_GET) ? "GET" : "POST";
+        message += "\nArguments: ";
+        message += webServer.args();
+        message += "\n";
+
+        for (uint8_t i = 0; i < webServer.args(); ++i)
+                message +=
+                    " " + webServer.argName(i) + ": " + webServer.arg(i) +
+                    "\n";
+
+        webServer.send(404, "text/plain", message);
+}
+
+/**
  * Switches a led state (a.k.a. bit of current answer)
  *
  * **Updates current_answer**
@@ -152,27 +235,61 @@ handleInputError()
 void
 switch_led()
 {
+        if (!is_game_running || token != webServer.arg("token").toInt())
+        {
+                webServer.send(200, "text/plain", "unauthorized");
+                return;
+        }
+
         int incomingByte = webServer.arg("led").toInt();
 
-        // Validate input
         if (incomingByte >= NLEDS || incomingByte < 0)
         {
                 handleInputError();
                 return;
         }
 
+        String message = "Led ";
+
         if (current_answer[incomingByte] == 1)
         {                       // Turn LED off
+                message += incomingByte;
+                message += " off!";
                 digitalWrite(bits[incomingByte], LOW);
                 current_answer[incomingByte] = 0;
         }
         else
         {                       // Turn LED on
+                message += incomingByte;
+                message += " on!";
                 digitalWrite(bits[incomingByte], HIGH);
                 current_answer[incomingByte] = 1;
         }
+        webServer.send(200, "text/plain", message);
+}
 
-        webServer.send(200, "text/plain", "ok");
+/**
+ * Generates a binary string password with NLEDS length
+ * Result is stored in global password variable
+ */
+void
+generate_password()
+{
+        unsigned int dec_password = random(1, pow(2, NLEDS)-1);
+        char tmp_password[] = "000000";
+        for (int i = NLEDS-1; i > 0; --i)
+        {
+                tmp_password[i] =(dec_password & 1) + '0';
+                dec_password >>= 1;
+        }
+
+        for (int i = 0; i < NLEDS; ++i)
+        {
+                if (tmp_password[i] == '1')
+                {
+                        password.setCharAt(i, '1');
+                }
+        }
 }
 
 /**
@@ -208,6 +325,14 @@ reset_game()
         {
                 current_answer[i] = 0;
         }
+
+        is_game_running = false;
+        token = 0;
+
+        generate_password();
+
+        // print password
+        print_binary_string(password);
 }
 
 /**
@@ -216,18 +341,32 @@ reset_game()
 void
 won_game()
 {
+        if (!is_game_running || token != webServer.arg("token").toInt())
+        {
+                webServer.send(200, "text/plain", "unauthorized");
+                return;
+        }
+
         for (int i = 0; i < 3; ++i)
         {
                 turn_all_off();
 
                 delay(500);
 
-                print_binary_string(current_answer);
+                for (int i = 0; i < NLEDS; ++i)
+                {
+                        if (current_answer[i] == 1)
+                        {
+                                digitalWrite(bits[i], HIGH);
+                        }
+                }
 
                 delay(500);
         }
 
         reset_game();
+
+        webServer.send(200, "text/plain", "ok");
 }
 
 /**
@@ -269,16 +408,30 @@ setup()
         webServer.on("/fwlink", handleRoot);           // Microsoft captive portal.
 
         webServer.on("/", handleRoot);
+        webServer.on("/auth", handleAuth);
+        webServer.on("/"+FORCERESTARENDPOINT,[]()
+                      {
+                      reset_game();
+                      webServer.send(200, "text/plain",
+                                      "A caixa foi reiniciada com sucesso!");});
+        webServer.on("/game", handleGame);
+        webServer.on("/style.css", return_css);
 
-        webServer.on("/switch_state", switch_led);
+        webServer.on("/game/switch_state", switch_led);
 
-        webServer.on("/won", won_game);
+        webServer.on("/game/won", won_game);
 
-        webServer.onNotFound(handleNotFound);
+        //webServer.onNotFound(handleNotFound);
+        webServer.onNotFound(handleRoot);
 
         // Start WebServer
         webServer.begin();
         Serial.println("HTTP server started");
+
+        /*** Start game ***/
+        generate_password();
+        // print password
+        print_binary_string(password);
 }
 
 /**

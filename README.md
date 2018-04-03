@@ -25,7 +25,15 @@ There are no special prerequisites for the offline mode.
 
 At least: Arduino Uno with ESP8266-01, 6 leds (and 6 resistors), wires, breadboard.
 
-Some instruction of how to build it can be found on my blog post about this project: [https://blog.diogo.site/posts/fun-with-binary](https://blog.diogo.site/posts/fun-with-binary)
+You have instructions of how to build your own FwB in my blog: [https://blog.diogo.site/posts/fun-with-binary](https://blog.diogo.site/posts/fun-with-binary)
+
+## MostraUP edition
+This is a special edition that adds a password mechanism to force single player 
+in online mode.
+Every output messages were translated to Portuguese due to
+University of Porto's Exhibition (MostraUP) being a portuguese event.
+For regular usage (during a lecture) you will probably find standard release 2.0
+a better option: https://www.diogo.site/projects/fun_with_binary#releases
 
 ## Versioning
 
@@ -63,18 +71,3 @@ Additional library software has been made available. All of it is Free Software
 and can be distributed under liberal terms, but those terms may differ in detail
 from the AGPL's particulars. See each package's license file in their official
 repository for additional terms.
-
-## New this version
-
-This is version 2.0 of Fun with Binary and includes the following (key) changes 
-from the previous one:
-
-- Client <-> Server <-> Arduino was replaced by a Client <-> Arduino structure
-- ESP8266 is now required for Access Point purposes
-- Both modes have become PHP independent (mostly relevant in the offline one)
-
-The last release, 2.0, gave us these improvements:
-
-- Significant visual improvement
-- 2 Powers Label switch functionality
-- Offline mode is now lighter and more portable (no computer with webserver required anymore)

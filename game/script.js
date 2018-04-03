@@ -56,12 +56,11 @@ function is_session_storage_available()
 /***********************************
  *         GAME SETTINGS           *
  ***********************************/
-
 // Online Mode (only used in Online Mode)
-ONLINEMODE = false;
+ONLINEMODE = true;
 
-// Box IP (only used in Online Mode)
-ONLINEURL = "http://42.42.42.42/";
+// Box IP
+ONLINEURL = "http://42.42.42.42/game/";
 
 // Number of leds
 NLEDS = 6;
@@ -87,13 +86,20 @@ LED_ON  = "data:image/png;base64,R0lGODlhZAC0ANX/AMDAwP//zP//mf//Zv//M///AP/M///
  * Global variables
  */
 // Empty Answer
-for (empty_answer = ''; empty_answer.length < NLEDS; empty_answer += '0');
+empty_answer = '';
+while (empty_answer.length < NLEDS)
+{
+        empty_answer += '0';
+}
 
 // correct answer
 correct_answer = empty_answer;
 
 // current answer
 current_answer = empty_answer;
+
+// Generate a token for this session
+sessionStorage.token = Math.random().toString(36).substr(2, 15+2);
 
 /**
  * Create leds
@@ -214,9 +220,9 @@ function switch_led(led_id)
         if (ONLINEMODE)
         {
                 let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", ONLINEURL+"switch_state?led=" + led_id, true);
+                xhttp.open("GET", ONLINEURL+"switch_state?led=" + led_id +
+                                 "&token=" + sessionStorage.token, true);
                 xhttp.send();
-
         }
 
         // If right answer, finish game, restart a new one
@@ -333,7 +339,8 @@ function end_game()
         if (ONLINEMODE)
         {
                 let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", ONLINEURL+"won", true);
+                xhttp.open("GET", ONLINEURL+"won" +
+                                 "?token=" + sessionStorage.token, true);
                 xhttp.send();
         }
 

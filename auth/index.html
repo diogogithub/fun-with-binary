@@ -31,39 +31,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </head>
 
 <body class="container">
-        <!-- Game Board -->
-        <div class="images" id="leds">
-        </div>
 
-        <!-- Statement -->
+        <!-- auth_html_message_Busy -->
         <div id="statement">
                 <p class="text" id="statement_text">
-                        How do you represent the number
-                        <span id="statement_value"></span>
-                        in binary?
+                        Já está alguém a jogar, espera pela tua vez! :)
                 </p>
         </div>
-
-        <!-- Settings -->
+        
+        <!-- auth_html_message_readyToPLay -->
+        <div id="statement">
+                <p class="text" id="statement_text">
+                        Acende as lâmpadas conforme a caixa! :)
+                </p>
+        </div>
+        
+        <!-- auth_html_login_dialog -->
+        <div class="images" id="leds">
+        </div>
+        
+        <br>
         <ul id="settings">
                 <li>
-                        <div class="button" id="label_switch_button">
-                                <p class="text" id="settings_label_label">Labels</p>
-                                <label class="switch">
-                                        <input id="label_switch"
-                                               class="toggle"
-                                               checked
-                                               type="checkbox"
-                                               onclick="switch_labels()"
-                                               autocomplete="off">
-                                        <span class="slider round"></span>
-                                </label>
+                        <div class="button">
+                                <input type="button" onclick="submit_auth_form()" value="Vamos Jogar!" id="play_button">
                         </div>
                 </li>
         </ul>
 
         <!-- Credits -->
-        <p class="text" id="footer">Made with <span style="color: #e25555;">&#9829;</span> by
+        <p class="text" id="footer">Feito com <span style="color:
+                #e25555;">&#9829;</span> por
                 <a href="https://www.diogo.site/">Diogo Cordeiro</a></p>
         <!-- JS -->
         <script src="script.js"></script>

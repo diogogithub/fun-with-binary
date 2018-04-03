@@ -63,6 +63,8 @@ Installing the basic Fun with Binary in offline mode is relatively easy.
 4. Minify the script.js with http://lisperator.net/uglifyjs/ and replace the
    line after <!-- JS --> in the index.html with the result inside the tags
    <script>*result*</script>
+   Note: If you have problems minifying try replacing `let` by `var`, then 
+   minify, and then reverting the replace in the minified version.
 
 5. Make the resulting HTM usable with the following tool:
    https://github.com/CytronTechnologies/ESP8266-WiFi-Module/raw/master/convertHtml/convertHtml.jar
