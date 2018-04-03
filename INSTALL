@@ -1,0 +1,102 @@
+TABLE OF CONTENTS
+=================
+* Installation
+    - Getting the offline mode up and running
+    - Getting the online mode up and running
+* Settings
+    - Number of Leds
+    - Show labels
+    - Easter Egg
+    - Change leds image and theme
+
+Installation
+============
+
+Getting the offline mode up and running
+---------------------------------------
+
+Installing the basic Fun with Binary in offline mode is relatively easy.
+
+1. Unpack the tarball you downloaded on your Web server. Usually a
+   command like this will work:
+
+       tar zxf funwithbinary-*.tar.gz
+
+   ...which will make a funwithbinary-x.y.z subdirectory in your current
+   directory. (If you don't have shell access on your Web server, you
+   may have to unpack the tarball on your local computer and FTP the
+   files to the server.)
+
+2. Move the tarball to a directory of your choosing in your Web root
+   directory. Usually something like this will work:
+
+       mv funwithbinary-x.y.z /var/www/funwithbinary
+
+   This will often make your Fun with Binary copy available in the funwithbinary
+   path of your server, like "http://example.net/funwithbinary". If you know how
+   to configure virtual hosts on your web server, you can try setting up
+   "http://funwithbinary.example.net/" or the like.
+
+3. You should now be able to navigate to your funwithbinary site's main
+   directory and play :)
+
+Getting the online mode up and running
+--------------------------------------
+
+Installing the basic Fun with Binary in offline mode is relatively easy.
+
+1. Unpack the tarball you downloaded on your computer. Usually a
+   command like this will work:
+
+       tar zxf funwithbinary-*.tar.gz
+
+   ...which will make a funwithbinary-x.y.z subdirectory in your current
+   directory.
+
+2. Minify the style.css with https://css.github.io/csso/csso.html and replace
+   the line after <!-- CSS --> in the index.html with the result inside the tags
+   <style>*result*</style>
+
+3. In the script.js file enable the online mode in the Game Settings section,
+   by changing "ONLINE_MODE = false; " to "ONLINE_MODE = true;"
+
+4. Minify the script.js with http://lisperator.net/uglifyjs/ and replace the
+   line after <!-- JS --> in the index.html with the result inside the tags
+   <script>*result*</script>
+
+5. Make the resulting HTM usable with the following tool:
+   https://github.com/CytronTechnologies/ESP8266-WiFi-Module/raw/master/convertHtml/convertHtml.jar
+
+6. Upload the resulting code to the arduino board
+
+7. You should now be able to play :)
+
+Settings
+========
+
+Number of Leds
+--------------
+
+You can change the number of leds by editing the N_LEDS constant in the
+Game Settings section of the script.js file. If you are using the Online Mode
+you should also change the constant of the same name in the section of same name
+in the server.ino file as well as adjust the LED GPIO array.
+
+Show labels
+-----------
+
+You can change the default value of this option by editing the "show_labels"
+variable in the Game Settings section of the script.js file. You can also
+completely disable this feature by changing the value of HAVE_LABELS constant.
+
+Easter Egg
+----------
+
+You can disable the easter egg by editing the EASTER_EGG constant in the
+Game Settings section of the script.js file.
+
+Change leds image and theme
+---------------------------
+
+You can change the LED_OFF and LED_ON paths in the Game Settings section of the
+script.js file.

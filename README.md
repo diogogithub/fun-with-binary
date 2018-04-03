@@ -11,39 +11,29 @@ Further information about Fun with Binary can be found in the project home page:
 
 ## Getting Started
 
-Fun with Binary is divided in three components, the Client, the Server, the Output.
+Fun with Binary has two different modes:
+- Online: Which has a little body to make everything more interactive.
+- Offline: Which is more independent and can be used right away without any further technicality by accessing: [https://www.diogo.site/projects/fun_with_binary/offlinev2.html](https://www.diogo.site/projects/fun_with_binary/offlinev2.html)
 
 ### Prerequisites
 
-### Server
+### Offline Mode
 
-For the server you need a webserver with PHP support (it can be localhost).
+There are no special prerequisites for the offline mode.
 
-### Client
+### Online Mode
 
-You can run it in the same server's webserver, although a ready to use live client was made avaiable in the folowing address:
+At least: Arduino Uno with ESP8266-01, 6 leds (and 6 resistors), wires, breadboard.
 
-```
-http://diogo.site/projects/fun_with_binary/client/
-```
-
-Despite that, it might be interesting to convert it in an actual mobile app :)
-
-### Output
-
-For the Arduino based output you obviously need an arduino, 6 leds (from which three of them must be red and the other three of another color).
-
-## Built With
-
-* [Ratchet](https://github.com/twbs/ratchet) - The mobile targeted web framework used in the client
+Some instruction of how to build it can be found on my blog post about this project: [https://blog.diogo.site/posts/fun-with-binary](https://blog.diogo.site/posts/fun-with-binary)
 
 ## Versioning
 
-I use [SemVer](http://semver.org/) for versioning. For the versions available, see the tags on this repository. 
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the tags on this repository.
 
 ## Authors
 
-* **Diogo Cordeiro** - *Initial work* - [Fun with Binary](https://gitlab.com/up201705417/fun-with-binary)
+* **Diogo Cordeiro**
 
 ## License
 
@@ -69,8 +59,22 @@ License along with this program, in the file "COPYING".  If not, see
     of using the software, and if you do not wish to share your
     modifications, *YOU MAY NOT INSTALL FUN WITH BINARY*.
 
-Additional library software has been made available (and were referenced 
-in the "Built With" section). All of it is Free Software and can be 
-distributed under liberal terms, but those terms may differ in detail 
-from the AGPL's particulars. See each package's license file in their 
-official repository for additional terms.
+Additional library software has been made available. All of it is Free Software
+and can be distributed under liberal terms, but those terms may differ in detail
+from the AGPL's particulars. See each package's license file in their official
+repository for additional terms.
+
+## New this version
+
+This is version 2.0 of Fun with Binary and includes the following (key) changes 
+from the previous one:
+
+- Client <-> Server <-> Arduino was replaced by a Client <-> Arduino structure
+- ESP8266 is now required for Access Point purposes
+- Both modes have become PHP independent (mostly relevant in the offline one)
+
+The last release, 2.0, gave us these improvements:
+
+- Significant visual improvement
+- 2 Powers Label switch functionality
+- Offline mode is now lighter and more portable (no computer with webserver required anymore)

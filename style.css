@@ -1,0 +1,258 @@
+/** theme: base
+ *
+ * @package   Fun with Binary
+ * @author    Diogo Cordeiro <up201705417@fc.up.pt>
+ * @copyright 2018 Diogo Cordeiro.
+ * @license   http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 Unported
+ * @link      https://www.diogo.site/projects/fun_with_binary/
+ */
+
+/* Resets css values */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video
+{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font: inherit;
+        vertical-align: baseline
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section
+{
+        display: block
+}
+
+body
+{
+        line-height: 1
+}
+
+ol,ul
+{
+        list-style: none
+}
+
+blockquote,q
+{
+        quotes: none
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after
+{
+        content: '';
+        content: none
+}
+
+table
+{
+        border-collapse: collapse;
+        border-spacing: 0
+}
+
+/* Custom styling */
+
+/* Sets font type to Code */
+@font-face,.container,.text
+{
+        font-family:code, sans-serif
+}
+
+/* Sets overall font, size, and blocks user highlighting/dragging */
+.container
+{
+        width: 100%;
+        cursor: default;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+}
+
+/* Center leds and text */
+.images,.text
+{
+        text-align: center
+}
+
+/* Cursor over led shall be a pointer */
+.led:hover
+{
+        cursor: pointer
+}
+
+/* single led container */
+.box
+{
+        display: inline-block
+}
+
+/* led's corresponding power of 2 (a.k.a.: label) */
+.labels
+{
+        z-index: 0;
+        height: 2.5vw;
+        visibility: visible;
+        margin: 8% -5% 0px -15%;
+        font-size: 3vw
+}
+
+.box,.labels
+{
+        position: relative
+}
+
+/* single led */
+.led
+{
+        margin-top: 1vh;
+        display: block;
+        z-index: 0;
+        opacity: 100;
+        width: 90%
+}
+
+/* Statement holder */
+#statement
+{
+        position: relative;
+        right: .5vw;
+        text-align: center;
+        margin-bottom: 1vh
+}
+
+/* Statement */
+#statement_text
+{
+        font-size: 2vw;
+        margin-top: 2vw;
+        margin-bottom: 3vw
+}
+
+/* Settings */
+#settings
+{
+        display: block;
+        text-align: center
+}
+
+#settings li
+{
+        display: inline-block
+}
+
+.button
+{
+        width: 20vw;
+        margin: auto 0 auto auto
+}
+
+.button
+{
+        height: auto;
+        text-align: center;
+        margin: auto 0 auto auto
+}
+
+.switch
+{
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px
+}
+
+.switch input
+{
+        display:none
+}
+
+.toggle
+{
+        transition: none;
+        -webkit-transition: none;
+        -moz-transition: none;
+        -o-transition: none
+}
+
+.slider
+{
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s
+}
+
+.slider:before
+{
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s
+}
+
+input:checked + .slider
+{
+        background-color: #2196F3
+}
+
+input:focus + .slider
+{
+        box-shadow: 0 0 1px #2196F3
+}
+
+input:checked + .slider:before
+{
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px)
+}
+
+/* Rounded sliders */
+.slider.round
+{
+        border-radius: 34px
+}
+
+.slider.round:before
+{
+        border-radius: 50%
+}
+
+/* Footer/Credits */
+#footer
+{
+        font-size: 12px;
+        margin-top: 3vw
+}

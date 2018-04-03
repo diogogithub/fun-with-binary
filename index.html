@@ -1,0 +1,72 @@
+<!--
+
+Fun with Binary - a fun way of introducing binary
+Copyright (C) 2018, Diogo Cordeiro.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=800" />
+        <title>Fun with Binary</title>
+        <meta name="description" content="A fun way of introducing binary">
+        <meta name="author" content="Diogo Cordeiro">
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body class="container">
+        <!-- Game Board -->
+        <div class="images" id="leds">
+        </div>
+
+        <!-- Statement -->
+        <div id="statement">
+                <p class="text" id="statement_text">
+                        How do you represent the number
+                        <span id="statement_value"></span>
+                        in binary?
+                </p>
+        </div>
+
+        <!-- Settings -->
+        <ul id="settings">
+                <li>
+                        <div class="button" id="label_switch_button">
+                                <p class="text" id="settings_label_label">Labels</p>
+                                <label class="switch">
+                                        <input id="label_switch"
+                                               class="toggle"
+                                               checked
+                                               type="checkbox"
+                                               onclick="switch_labels()"
+                                               autocomplete="off">
+                                        <span class="slider round"></span>
+                                </label>
+                        </div>
+                </li>
+        </ul>
+
+        <!-- Credits -->
+        <p class="text" id="footer">Made with <span style="color: #e25555;">&#9829;</span> by
+                <a href="https://www.diogo.site/">Diogo Cordeiro</a></p>
+        <!-- JS -->
+        <script src="script.js"></script>
+</body>
+
+</html>
