@@ -98,9 +98,6 @@ correct_answer = empty_answer;
 // current answer
 current_answer = empty_answer;
 
-// Generate a token for this session
-sessionStorage.token = Math.random().toString(36).substr(2, 15+2);
-
 /**
  * Create leds
  */

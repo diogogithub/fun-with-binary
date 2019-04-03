@@ -40,7 +40,7 @@ IPAddress netMsk(255, 255, 255, 0);
 
 // These are the WiFi access point settings. Update them to your liking
 const char *ssid = "Fun with Binary";
-//const char *password = "";
+//const char *wifi_password = "";
 
 // Define a web server at port 80 for HTTP
 ESP8266WebServer webServer(80);
@@ -184,6 +184,8 @@ handleAuth()
                                 token = webServer.arg("token").toInt();
                                 webServer.send(200, "text/html", "ok");
                                 turn_all_off();
+                                Serial.print("Current valid token is: ");
+                                Serial.println(token);
                         }
                         else
                         {
@@ -238,6 +240,8 @@ switch_led()
         if (!is_game_running || token != webServer.arg("token").toInt())
         {
                 webServer.send(200, "text/plain", "unauthorized");
+                Serial.print("Invalid token tried to play: ");
+                Serial.println(webServer.arg("token").toInt());
                 return;
         }
 
@@ -290,6 +294,8 @@ generate_password()
                         password.setCharAt(i, '1');
                 }
         }
+        Serial.print("Password is: ");
+        Serial.println(password);
 }
 
 /**
@@ -391,7 +397,7 @@ setup()
         WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));   // subnet FF FF FF 00
 
         // You can remove/add the password parameter if you want the AP to be open/closed.
-        WiFi.softAP(ssid);     //, password);
+        WiFi.softAP(ssid);     //, wifi_password);
 
         // if DNSServer is started with "*" for domain name, it will reply with
         // provided IP to all DNS request
