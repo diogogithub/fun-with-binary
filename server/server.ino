@@ -49,7 +49,9 @@ ESP8266WebServer webServer(80);
 #define NLEDS 6
 
 // LEDs board outputs
-int bits[NLEDS] = { D0, D1, D2, D3, D4, D5 };
+//                  Orange, Yellow, Green, Blue, Purple, Gray
+//                  D0        D1      D2    D5    D6      D7
+int bits[NLEDS] = { D2, D3, D4, D5, D6, D7 };
 
 // Memorizes bits state
 int current_answer[NLEDS] = { 0 };
@@ -246,6 +248,8 @@ switch_led()
         }
 
         int incomingByte = webServer.arg("led").toInt();
+        Serial.print("Mandaram-me alterar o estado da lampada: ");
+        Serial.println(incomingByte);
 
         if (incomingByte >= NLEDS || incomingByte < 0)
         {
@@ -306,6 +310,8 @@ generate_password()
 void
 print_binary_string(String which)
 {
+        Serial.print("Eu estou a imprimir esta string: ");
+        Serial.println(which);
         for (int i = 0; i < NLEDS; ++i)
         {
                 if (which.charAt(i) == '1')
