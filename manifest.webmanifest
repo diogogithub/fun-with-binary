@@ -1,0 +1,17 @@
+{
+  "name": "Fun with Binary",
+  "short_name": "Binary",
+  "description": "Learn how binary numbers work one bit at a time.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06101b",
+  "theme_color": "#081421",
+  "icons": [
+    {
+      "src": "assets/fun-with-binary-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
