@@ -1,80 +1,49 @@
 # Fun with Binary
-2018
 
-(c) Diogo Cordeiro
+A small interactive playground for learning how binary numbers work. The browser game asks the player to represent a decimal number using six binary switches; the active powers of two are added live until the target is reached.
 
-This is the README file for Fun with Binary, an app to help introducing students how binary numbers work.
+[Play Fun with Binary](https://diogogithub.github.io/fun-with-binary/) · [Project write-up](https://blog.diogo.site/posts/fun-with-binary)
 
-Further information about Fun with Binary can be found in the project home page:
+![Fun with Binary icon](assets/fun-with-binary-icon.svg)
 
-[https://www.diogo.site/projects/fun_with_binary/](https://www.diogo.site/projects/fun_with_binary/)
+## What is included
 
-## Getting Started
+- A responsive, dependency-free browser game.
+- Keyboard controls (`1`–`6`) and accessible toggle buttons.
+- Session recovery, completed-challenge count and streak tracking.
+- Optional ESP8266 mode that mirrors the browser switches to six physical LEDs.
+- The original ESP8266 captive-portal firmware in [`server/`](server/).
 
-Fun with Binary has two different modes:
-- Online: Which has a little body to make everything more interactive.
-- Offline: Which is more independent and can be used right away without any further technicality by accessing: [https://www.diogo.site/projects/fun_with_binary/offlinev2.html](https://www.diogo.site/projects/fun_with_binary/offlinev2.html)
+## Run locally
 
-### Prerequisites
+No build step is required:
 
-### Offline Mode
+```sh
+python3 -m http.server 8080
+```
 
-There are no special prerequisites for the offline mode.
+Then open `http://localhost:8080`.
 
-### Online Mode
+## Physical-device mode
 
-At least: Arduino Uno with ESP8266-01, 6 leds (and 6 resistors), wires, breadboard.
+The firmware creates the **Fun with Binary** Wi-Fi access point at `42.42.42.42`. When the page is served from that address, device mode is enabled automatically and the interface calls the existing `/switch_state` and `/won` endpoints.
 
-Some instruction of how to build it can be found on my blog post about this project: [https://blog.diogo.site/posts/fun-with-binary](https://blog.diogo.site/posts/fun-with-binary)
+For testing against a compatible device while serving the page elsewhere, append `?device=1` to the URL.
 
-## Versioning
+After editing `index.html`, `style.css` or `script.js`, regenerate the page embedded in the firmware:
 
-I use [SemVer](http://semver.org/) for versioning. For the versions available, see the tags on this repository.
+```sh
+python3 tools/build-embedded.py
+```
 
-## Authors
+This writes `server/file1.h`, which is served directly from program memory by the ESP8266.
 
-* **Diogo Cordeiro**
+## Original hardware
+
+The original setup uses an ESP8266-compatible board, six LEDs, six resistors, a breadboard and wiring. Each browser bit corresponds to one physical LED.
 
 ## License
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+Copyright © 2018–2026 Diogo Cordeiro.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public
-License along with this program, in the file "COPYING".  If not, see
-<http://www.gnu.org/licenses/>.
-
-    IMPORTANT NOTE: The GNU Affero General Public License (AGPL) has
-    *different requirements* from the "regular" GPL. In particular, if
-    you make modifications to the Fun with Binary source code on your server,
-    you *MUST MAKE AVAILABLE* the modified version of the source code
-    to your users under the same license. This is a legal requirement
-    of using the software, and if you do not wish to share your
-    modifications, *YOU MAY NOT INSTALL FUN WITH BINARY*.
-
-Additional library software has been made available. All of it is Free Software
-and can be distributed under liberal terms, but those terms may differ in detail
-from the AGPL's particulars. See each package's license file in their official
-repository for additional terms.
-
-## New this version
-
-This is version 2.0 of Fun with Binary and includes the following (key) changes 
-from the previous one:
-
-- Client <-> Server <-> Arduino was replaced by a Client <-> Arduino structure
-- ESP8266 is now required for Access Point purposes
-- Both modes have become PHP independent (mostly relevant in the offline one)
-
-The last release, 2.0, gave us these improvements:
-
-- Significant visual improvement
-- 2 Powers Label switch functionality
-- Offline mode is now lighter and more portable (no computer with webserver required anymore)
+Fun with Binary is free software licensed under the GNU Affero General Public License, version 3 or any later version. See [`COPYING`](COPYING).
