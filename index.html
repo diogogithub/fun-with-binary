@@ -1,72 +1,150 @@
-<!--
-
-Fun with Binary - a fun way of introducing binary
-Copyright (C) 2018, Diogo Cordeiro.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=800" />
-        <title>Fun with Binary</title>
-        <meta name="description" content="A fun way of introducing binary">
-        <meta name="author" content="Diogo Cordeiro">
-        <!-- CSS -->
-        <link rel="stylesheet" type="text/css" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081421">
+  <meta name="description" content="Learn how binary numbers work by building decimal values one bit at a time.">
+  <meta name="author" content="Diogo Cordeiro">
+  <meta property="og:title" content="Fun with Binary">
+  <meta property="og:description" content="A small interactive binary playground for the browser and an ESP8266 teaching device.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/fun-with-binary-icon.svg">
+  <title>Fun with Binary</title>
+  <link rel="icon" href="assets/fun-with-binary-icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
+<body>
+  <a class="skip-link" href="#game">Skip to the game</a>
 
-<body class="container">
-        <!-- Game Board -->
-        <div class="images" id="leds">
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Fun with Binary home">
+      <img src="assets/fun-with-binary-icon.svg" alt="" width="46" height="46">
+      <span>
+        <strong>Fun with Binary</strong>
+        <small>One bit at a time</small>
+      </span>
+    </a>
+
+    <nav aria-label="Project links">
+      <a href="#how-it-works">How it works</a>
+      <a href="https://github.com/diogogithub/fun-with-binary">Source <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Interactive binary playground</p>
+        <h1 id="page-title">Switch the bits.<br>Build the number.</h1>
+        <p class="hero-lede">Turn six bits on or off until their values add up to the target. The same interface can run in a browser or control the original ESP8266-and-LED teaching device.</p>
+      </div>
+
+      <div class="hero-binary" aria-hidden="true">
+        <span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span>
+      </div>
+    </section>
+
+    <section class="game-shell" id="game" aria-labelledby="challenge-title">
+      <div class="game-toolbar">
+        <div>
+          <p class="section-label">Current challenge</p>
+          <h2 id="challenge-title">Represent <span id="target-number">—</span> in binary</h2>
         </div>
 
-        <!-- Statement -->
-        <div id="statement">
-                <p class="text" id="statement_text">
-                        How do you represent the number
-                        <span id="statement_value"></span>
-                        in binary?
-                </p>
+        <div class="toolbar-actions">
+          <button class="button button-quiet" id="toggle-labels" type="button" aria-pressed="true">
+            <span class="button-icon" aria-hidden="true">2ⁿ</span>
+            <span>Hide weights</span>
+          </button>
+          <button class="button button-primary" id="new-challenge" type="button">
+            New challenge
+            <span aria-hidden="true">↻</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="game-grid">
+        <div class="bits-panel">
+          <div class="bits-heading">
+            <span>Most significant bit</span>
+            <span>Least significant bit</span>
+          </div>
+
+          <div class="bits" id="bits" role="group" aria-label="Binary digits"></div>
+
+          <div class="keyboard-hint">
+            <span class="hint-dot" aria-hidden="true"></span>
+            Use the buttons or press keys <kbd>1</kbd>–<kbd>6</kbd>
+          </div>
         </div>
 
-        <!-- Settings -->
-        <ul id="settings">
-                <li>
-                        <div class="button" id="label_switch_button">
-                                <p class="text" id="settings_label_label">Labels</p>
-                                <label class="switch">
-                                        <input id="label_switch"
-                                               class="toggle"
-                                               checked
-                                               type="checkbox"
-                                               onclick="switch_labels()"
-                                               autocomplete="off">
-                                        <span class="slider round"></span>
-                                </label>
-                        </div>
-                </li>
-        </ul>
+        <aside class="number-panel" aria-live="polite" aria-atomic="true">
+          <p class="section-label">Your value</p>
+          <div class="decimal-value" id="current-decimal">0</div>
+          <div class="binary-value" id="current-binary">000000</div>
+          <div class="sum" id="current-sum">0</div>
 
-        <!-- Credits -->
-        <p class="text" id="footer">Made with <span style="color: #e25555;">&#9829;</span> by
-                <a href="https://www.diogo.site/">Diogo Cordeiro</a></p>
-        <!-- JS -->
-        <script src="script.js"></script>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progress-bar"></span>
+          </div>
+          <p class="difference" id="difference">Start by switching on a bit.</p>
+
+          <div class="scoreboard" aria-label="Session score">
+            <div>
+              <span>Completed</span>
+              <strong id="score">0</strong>
+            </div>
+            <div>
+              <span>Streak</span>
+              <strong id="streak">0</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="success" id="success" hidden>
+        <span class="success-mark" aria-hidden="true">✓</span>
+        <div>
+          <strong>That is correct.</strong>
+          <span id="success-equation"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="explanation" id="how-it-works" aria-labelledby="how-title">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Every position is a power of two.</h2>
+      </div>
+
+      <div class="explanation-grid">
+        <article>
+          <span class="step-number">01</span>
+          <h3>Read the target</h3>
+          <p>The challenge gives you a decimal number between 1 and 63.</p>
+        </article>
+        <article>
+          <span class="step-number">10</span>
+          <h3>Choose the bits</h3>
+          <p>Each switch contributes 32, 16, 8, 4, 2 or 1 when it is on.</p>
+        </article>
+        <article>
+          <span class="step-number">11</span>
+          <h3>Make the sum</h3>
+          <p>When the active values add up to the target, you have its binary representation.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Designed and built by <a href="https://diogo.site/">Diogo Cordeiro</a>. Originally created in 2018 and refreshed in 2026.</p>
+    <p><a href="https://github.com/diogogithub/fun-with-binary/blob/master/COPYING">AGPL-3.0-or-later</a></p>
+  </footer>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
 </body>
-
 </html>
