@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Fun with Binary</title>
+  <desc id="desc">Six binary switches arranged inside a rounded square.</desc>
+  <defs>
+    <linearGradient id="bg" x1="28" y1="18" x2="224" y2="238" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102b42"/>
+      <stop offset="1" stop-color="#06121f"/>
+    </linearGradient>
+    <linearGradient id="on" x1="68" y1="50" x2="190" y2="207" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7fffd4"/>
+      <stop offset="1" stop-color="#39d9f3"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="55" fill="url(#bg)"/>
+  <rect x="8.75" y="8.75" width="238.5" height="238.5" rx="54.25" fill="none" stroke="#75edff" stroke-opacity=".32" stroke-width="1.5"/>
+  <g fill="#18354a" stroke="#89b7d0" stroke-opacity=".28" stroke-width="3">
+    <rect x="38" y="48" width="24" height="160" rx="12"/>
+    <rect x="69" y="48" width="24" height="160" rx="12"/>
+    <rect x="100" y="48" width="24" height="160" rx="12"/>
+    <rect x="131" y="48" width="24" height="160" rx="12"/>
+    <rect x="162" y="48" width="24" height="160" rx="12"/>
+    <rect x="193" y="48" width="24" height="160" rx="12"/>
+  </g>
+  <g fill="url(#on)" filter="url(#glow)">
+    <circle cx="50" cy="159" r="9"/>
+    <circle cx="81" cy="91" r="9"/>
+    <circle cx="112" cy="159" r="9"/>
+    <circle cx="143" cy="91" r="9"/>
+    <circle cx="174" cy="91" r="9"/>
+    <circle cx="205" cy="159" r="9"/>
+  </g>
+  <g fill="#a9c0cf" font-family="ui-monospace,monospace" font-size="17" font-weight="800" text-anchor="middle">
+    <text x="50" y="113">0</text><text x="81" y="181">1</text><text x="112" y="113">0</text>
+    <text x="143" y="181">1</text><text x="174" y="181">1</text><text x="205" y="113">0</text>
+  </g>
+</svg>
