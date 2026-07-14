@@ -87,7 +87,7 @@ void
 handleRoot()
 {
 
-        webServer.send(200, "text/html", file1);
+        webServer.send_P(200, "text/html", file1);
 }
 
 /**
